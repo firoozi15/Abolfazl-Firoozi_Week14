@@ -42,7 +42,7 @@ function App() {
   return (
     <> 
       <Header />
-      <Contacts />
+      <Contacts contacts={contacts} />
     </>
   );
 }

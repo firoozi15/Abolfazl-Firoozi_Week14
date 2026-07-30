@@ -1,12 +1,13 @@
 import styles from "./Contacts.module.css";
+import ContactList from "./ContactList";
 
-function Contacts() {
+function Contacts({ contacts }) {
   return (
     <>
       <main className={styles.main}>
         <h1>Contacts</h1>
 
-        <div></div>
+        <ContactList contacts={contacts} />
       </main>
     </>
   );

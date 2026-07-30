@@ -1,5 +1,9 @@
 :root {
-  --main: #67ACFD;
+  --main: #67acfd;
+  --background-tag: #d9ebff;
   --text: #808080;
   --white: #ffffff;
+  --orange: #ee9026;
+  --red: #d65f5f;
+  --black: #000000;
 }
