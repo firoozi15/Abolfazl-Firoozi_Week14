@@ -3,7 +3,20 @@ import Contacts from "./components/Contacts";
 import Header from "./components/Header";
 
 function App() {
-  const [categories, setCategories] = useState(["Family", "Friend", "Colleague"]);
+  const [categories, setCategories] = useState([
+    {
+      id: 1,
+      name: "Family",
+    },
+    {
+      id: 2,
+      name: "Friend",
+    },
+    {
+      id: 3,
+      name: "Colleague",
+    },
+  ]);
   const [contacts, setContacts] = useState([
     {
       id: 1,
@@ -40,9 +53,9 @@ function App() {
   ]);
 
   return (
-    <> 
+    <>
       <Header />
-      <Contacts contacts={contacts} />
+      <Contacts contacts={contacts} categories={categories} />
     </>
   );
 }
