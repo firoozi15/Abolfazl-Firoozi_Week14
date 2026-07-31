@@ -2,7 +2,8 @@ import { useState } from "react";
 import styles from "./ContactForm.module.css";
 import closeIcon from "../assets/icons/close.svg";
 
-function ContactForm({ categories }) {
+function ContactForm({ categories, addContact }) {
+  const [isClosing, setisClosing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [contact, setContact] = useState({
     firstName: "",
@@ -26,8 +27,8 @@ function ContactForm({ categories }) {
     else if (!contact.email.includes("@") || contact.email.length <= 8)
       alert("Please enter a valid email address.");
     else {
-      console.log(contact);
-      // add contact to cantacts list
+      addContact(contact);
+      setisClosing(true);
     }
   };
 
@@ -45,12 +46,18 @@ function ContactForm({ categories }) {
         Add +
       </button>
       {showModal && (
-        <div className={styles.contactForm}>
+        <div
+          onAnimationEnd={() => {
+            isClosing && setShowModal(false);
+            setisClosing(false);
+          }}
+          className={`${styles.contactForm} ${isClosing && styles.hide}`}
+        >
           <div className={styles.form}>
             <div className={styles.formHeader}>
               <h3>Add User</h3>
               <img
-                onClick={() => setShowModal(false)}
+                onClick={() => setisClosing(true)}
                 src={closeIcon}
                 alt="closeIcon"
                 className={styles.closeIcon}
@@ -106,14 +113,16 @@ function ContactForm({ categories }) {
                 >
                   <option value="">Select category</option>
                   {categories.map((category) => (
-                    <option key={category.id} value={category.name}>{category.name}</option>
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
             <div className={styles.formButtons}>
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() => setisClosing(true)}
                 className={styles.cancelButton}
               >
                 Cancel

@@ -71,3 +71,8 @@
 .contact .delete {
   background-color: var(--red);
 }
+
+.noMember {
+  padding: 20px;
+  text-align: center;
+}

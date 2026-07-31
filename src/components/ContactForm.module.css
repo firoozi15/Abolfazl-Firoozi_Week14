@@ -19,7 +19,11 @@
   width: 100%;
   height: 100%;
   background-color: #00000050;
-  animation: showModal 0.2s linear;
+  animation: showModal 0.1s linear;
+}
+
+.hide{
+  animation: hideModal 0.1s linear;
 }
 
 .form {

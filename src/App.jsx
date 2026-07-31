@@ -3,6 +3,12 @@ import Contacts from "./components/Contacts";
 import Header from "./components/Header";
 
 function App() {
+  const addContact = (contact) => {
+    let contactId =
+      contacts.length === 0 ? 1 : contacts[contacts.length - 1].id + 1;
+    const newContact = { ...contact,id:contactId};
+    setContacts([...contacts, newContact]);
+  };
   const [categories, setCategories] = useState([
     {
       id: 1,
@@ -17,45 +23,16 @@ function App() {
       name: "Colleague",
     },
   ]);
-  const [contacts, setContacts] = useState([
-    {
-      id: 1,
-      firstName: "Ali",
-      lastName: "Rezaei",
-      email: "ali.rezaei@example.com",
-      phone: "09121234567",
-      category: "Family",
-    },
-    {
-      id: 2,
-      firstName: "Sara",
-      lastName: "Mohammadi",
-      email: "sara.mohammadi@example.com",
-      phone: "09351234567",
-      category: "Friend",
-    },
-    {
-      id: 3,
-      firstName: "Amir",
-      lastName: "Karimi",
-      email: "amir.karimi@example.com",
-      phone: "09194567890",
-      category: "Colleague",
-    },
-    {
-      id: 4,
-      firstName: "Negar",
-      lastName: "Ahmadi",
-      email: "negar.ahmadi@example.com",
-      phone: "09901234567",
-      category: "Family",
-    },
-  ]);
+  const [contacts, setContacts] = useState([]);
 
   return (
     <>
       <Header />
-      <Contacts contacts={contacts} categories={categories} />
+      <Contacts
+        contacts={contacts}
+        categories={categories}
+        addContact={addContact}
+      />
     </>
   );
 }
