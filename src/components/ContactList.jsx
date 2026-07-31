@@ -1,10 +1,16 @@
+import { useState } from "react";
 import userIcon from "../assets/icons/user.svg";
+import ConfirmModal from "./ConfirmModal";
 import styles from "./ContactList.module.css";
+
 function ContactList({ contacts, deleteContact }) {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedContactId, setSelectedContactId] = useState(0);
+  const closeModal = () => setShowConfirm(false);
   if (contacts.length < 1) {
     return (
       <div className={styles.contactsList}>
-        <p className={styles.noMember} >No contacts found</p>
+        <p className={styles.noMember}>No contacts found</p>
       </div>
     );
   }
@@ -24,7 +30,10 @@ function ContactList({ contacts, deleteContact }) {
             <div className={styles.buttons}>
               <button className={styles.edit}>Edit</button>
               <button
-                onClick={() => deleteContact(contact.id)}
+                onClick={() => {
+                  setSelectedContactId(contact.id);
+                  setShowConfirm(true);
+                }}
                 className={styles.delete}
               >
                 Delete
@@ -33,6 +42,15 @@ function ContactList({ contacts, deleteContact }) {
           </div>
         );
       })}
+      {showConfirm && (
+        <ConfirmModal
+          closeModal={closeModal}
+          message={"do you want to delete ?"}
+          confirmFunction={() => {
+            deleteContact(selectedContactId);
+          }}
+        />
+      )}
     </div>
   );
 }
