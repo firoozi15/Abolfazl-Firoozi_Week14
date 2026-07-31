@@ -5,7 +5,7 @@ import closeIcon from "../assets/icons/close.svg";
 function Header() {
   return (
     <>
-      <div className={styles.header}>
+      <header className={styles.header}>
         <img
           src={searchIcon}
           alt="searchicon"
@@ -21,7 +21,7 @@ function Header() {
           alt="searchicon"
           className={`${styles.icon} ${styles.closeIcon}`}
         />
-      </div>
+      </header>
     </>
   );
 }

@@ -1,0 +1,78 @@
+.contactsList {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.1);
+}
+
+.contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0px;
+}
+
+.contact input {
+  min-width: 18px;
+  min-height: 18px;
+}
+
+.contact img {
+  width: 40px;
+  height: 40px;
+  margin: 0 1rem;
+}
+
+.contact p {
+  margin: 0 1rem;
+}
+
+.contact .fullName {
+  width: 17%;
+}
+
+.contact .email {
+  width: 25%;
+}
+
+.contact .phone {
+  width: 10%;
+}
+
+.contact .category {
+  text-align: center;
+  padding: 4px 0px;
+  border-radius: 8px;
+  color: var(--black);
+  background-color: var(--background-tag);
+  border: 2px solid var(--main);
+  width: 10%;
+}
+
+.contact .buttons {
+  display: flex;
+  gap: 5px;
+  width: 15%;
+}
+
+.contact .buttons button {
+  padding: 9px 25px;
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.contact .edit {
+  background-color: var(--orange);
+}
+
+.contact .delete {
+  background-color: var(--red);
+}
+
+.noMember {
+  padding: 20px;
+  text-align: center;
+}
