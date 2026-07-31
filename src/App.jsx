@@ -3,6 +3,11 @@ import Contacts from "./components/Contacts";
 import Header from "./components/Header";
 
 function App() {
+  const deleteContact = (id) => {
+    const updatedContacts = contacts.filter((contact) => contact.id !== id );
+    setContacts(updatedContacts);
+    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+  };
   const addContact = (contact) => {
     let contactId =
       contacts.length === 0 ? 1 : contacts[contacts.length - 1].id + 1;
@@ -35,6 +40,7 @@ function App() {
         contacts={contacts}
         categories={categories}
         addContact={addContact}
+        deleteContact={deleteContact}
       />
     </>
   );

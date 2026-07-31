@@ -1,6 +1,6 @@
 import userIcon from "../assets/icons/user.svg";
 import styles from "./ContactList.module.css";
-function ContactList({ contacts }) {
+function ContactList({ contacts, deleteContact }) {
   if (contacts.length < 1) {
     return (
       <div className={styles.contactsList}>
@@ -23,7 +23,12 @@ function ContactList({ contacts }) {
             <p className={styles.email}>{contact.email}</p>
             <div className={styles.buttons}>
               <button className={styles.edit}>Edit</button>
-              <button className={styles.delete}>Delete</button>
+              <button
+                onClick={() => deleteContact(contact.id)}
+                className={styles.delete}
+              >
+                Delete
+              </button>
             </div>
           </div>
         );

@@ -2,7 +2,7 @@ import ContactForm from "./ContactForm";
 import styles from "./Contacts.module.css";
 import ContactList from "./ContactList";
 
-function Contacts({ contacts, categories, addContact }) {
+function Contacts({ contacts, categories, addContact, deleteContact }) {
   return (
     <>
       <main className={styles.main}>
@@ -10,7 +10,7 @@ function Contacts({ contacts, categories, addContact }) {
         <div className={styles.mainHeader}>
           <ContactForm categories={categories} addContact={addContact} />
         </div>
-        <ContactList contacts={contacts} />
+        <ContactList contacts={contacts} deleteContact={deleteContact} />
       </main>
     </>
   );
