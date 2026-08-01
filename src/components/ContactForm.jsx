@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./ContactForm.module.css";
 import closeIcon from "../assets/icons/close.svg";
+import ConfirmModal from "./ConfirmModal";
 
 function ContactForm({
   categories,
@@ -10,6 +11,7 @@ function ContactForm({
   clearSelectedContact,
 }) {
   const [isClosing, setisClosing] = useState(false);
+  const [showConfirm, setshowConfirm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [contact, setContact] = useState({
     firstName: "",
@@ -18,6 +20,7 @@ function ContactForm({
     phone: "",
     category: "",
   });
+  const closeModal = () => setshowConfirm(false);
 
   useEffect(() => {
     if (selectedContact) {
@@ -85,17 +88,7 @@ function ContactForm({
             <div className={styles.formHeader}>
               <h3>{selectedContact ? "Edit User" : "Add User"}</h3>
               <img
-                onClick={() => {
-                  setisClosing(true);
-                  clearSelectedContact();
-                  setContact({
-                    firstName: "",
-                    lastName: "",
-                    email: "",
-                    phone: "",
-                    category: "",
-                  });
-                }}
+                onClick={() => setshowConfirm(true)}
                 src={closeIcon}
                 alt="closeIcon"
                 className={styles.closeIcon}
@@ -165,17 +158,7 @@ function ContactForm({
             </div>
             <div className={styles.formButtons}>
               <button
-                onClick={() => {
-                  setisClosing(true);
-                  clearSelectedContact();
-                  setContact({
-                    firstName: "",
-                    lastName: "",
-                    email: "",
-                    phone: "",
-                    category: "",
-                  });
-                }}
+                onClick={() => setshowConfirm(true)}
                 className={styles.cancelButton}
               >
                 Cancel
@@ -189,6 +172,23 @@ function ContactForm({
             </div>
           </div>
         </div>
+      )}
+      {showConfirm && (
+        <ConfirmModal
+          closeModal={closeModal}
+          message={"Do you want to cancel editing?"}
+          confirmFunction={() => {
+            setisClosing(true);
+            clearSelectedContact();
+            setContact({
+              firstName: "",
+              lastName: "",
+              email: "",
+              phone: "",
+              category: "",
+            });
+          }}
+        />
       )}
     </>
   );
