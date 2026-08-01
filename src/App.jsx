@@ -4,7 +4,7 @@ import Header from "./components/Header";
 
 function App() {
   const deleteContact = (id) => {
-    const updatedContacts = contacts.filter((contact) => contact.id !== id );
+    const updatedContacts = contacts.filter((contact) => contact.id !== id);
     setContacts(updatedContacts);
     localStorage.setItem("contacts", JSON.stringify(updatedContacts));
   };
@@ -14,6 +14,25 @@ function App() {
     const newContact = { ...contact, id: contactId };
     setContacts([...contacts, newContact]);
     localStorage.setItem("contacts", JSON.stringify([...contacts, newContact]));
+  };
+  const updateContact = (updatedContact) => {
+    const newContacts = contacts.map((contact) => {
+      if (contact.id === updatedContact.id) {
+        const newContact = {
+          ...contact,
+          firstName: updatedContact.firstName,
+          lastName: updatedContact.lastName,
+          email: updatedContact.email,
+          phone: updatedContact.phone,
+          category: updatedContact.category,
+        };
+        return newContact;
+      }
+      return contact;
+    });
+
+    setContacts(newContacts);
+    localStorage.setItem("contacts", JSON.stringify(newContacts));
   };
   const [categories, setCategories] = useState([
     {
@@ -41,6 +60,7 @@ function App() {
         categories={categories}
         addContact={addContact}
         deleteContact={deleteContact}
+        updateContact={updateContact}
       />
     </>
   );
