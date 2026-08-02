@@ -18,24 +18,3 @@
   display: flex;
   justify-content: space-between;
 }
-
-.filterButtons {
-  display: flex;
-  gap: 10px;
-}
-
-.button {
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: none;
-  color: var(--text);
-  background-color: var(--white);
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-}
-
-.filterButtons .activeFilter , .adduser {
-  background-color: var(--main) !important;
-  color: var(--white) !important;
-}

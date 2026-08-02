@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./ContactForm.module.css";
 import closeIcon from "../assets/icons/close.svg";
 import ConfirmModal from "./ConfirmModal";
+import CategoryButtons from "./CategoryButtons";
 
 function ContactForm({
   categories,
@@ -9,6 +10,7 @@ function ContactForm({
   selectedContact,
   updateContact,
   clearSelectedContact,
+  setFilterCategory,
 }) {
   const [isClosing, setisClosing] = useState(false);
   const [showConfirm, setshowConfirm] = useState(false);
@@ -70,6 +72,7 @@ function ContactForm({
   };
   return (
     <>
+      <CategoryButtons categories={categories} setFilterCategory={setFilterCategory} />
       <button
         onClick={() => setShowModal(true)}
         className={`${styles.button} ${styles.adduser}`}

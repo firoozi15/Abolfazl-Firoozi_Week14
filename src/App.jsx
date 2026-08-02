@@ -8,6 +8,8 @@ function App() {
   const [contacts, setContacts] = useState(() => {
     return JSON.parse(localStorage.getItem("contacts")) || [];
   });
+  const [filteredCategoryContacts, setFilteredCategoryContacts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [categories, setCategories] = useState([
     {
       id: 1,
@@ -22,6 +24,24 @@ function App() {
       name: "Colleague",
     },
   ]);
+
+  const setFilterCategory = (name) => {
+    setSelectedCategory(name);
+    setFilteredCategoryContacts(filterByCategory(name));
+  };
+
+  const filterByCategory = (name) => {
+    return contacts.filter((contact) => {
+      if (contact.category === name) {
+        console.log(contact);
+        return true;
+      }
+      if (name === "All") {
+        console.log(contact);
+        return true;
+      }
+    });
+  };
 
   const deleteContact = (id) => {
     const updatedContacts = contacts.filter((contact) => contact.id !== id);
@@ -82,6 +102,7 @@ function App() {
   const clearSearch = () => {
     setSearchContacts([]);
     setSearchValue("");
+    setFilterCategory("All");
   };
 
   return (
@@ -92,11 +113,18 @@ function App() {
         clearSearch={clearSearch}
       />
       <Contacts
-        contacts={searchValue ? searchContacts : contacts}
-        categories={categories}
+        contacts={
+          searchValue
+            ? searchContacts
+            : selectedCategory === "All"
+              ? contacts
+              : filteredCategoryContacts
+        }
         addContact={addContact}
         deleteContact={deleteContact}
         updateContact={updateContact}
+        categories={categories}
+        setFilterCategory={setFilterCategory}
       />
     </>
   );
