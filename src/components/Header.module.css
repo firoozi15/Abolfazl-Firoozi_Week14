@@ -17,13 +17,20 @@
   color: var(--main);
 }
 
-.searchIcon{
+.searchIcon {
   left: 15px;
 }
 
 .closeIcon {
+  visibility: hidden;
+  opacity: 0;
   right: 15px;
   cursor: pointer;
+}
+
+.showCloseIcon {
+  visibility: visible;
+  opacity: 1;
 }
 
 .searchInput {
