@@ -3,7 +3,11 @@ import userIcon from "../assets/icons/user.svg";
 import ConfirmModal from "./ConfirmModal";
 import styles from "./ContactList.module.css";
 
-function ContactList({ contacts, deleteContact }) {
+function ContactList({
+  contacts,
+  deleteContact,
+  selectContactForEdit,
+}) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedContactId, setSelectedContactId] = useState(0);
   const closeModal = () => setShowConfirm(false);
@@ -28,7 +32,14 @@ function ContactList({ contacts, deleteContact }) {
             <p className={styles.phone}>{contact.phone}</p>
             <p className={styles.email}>{contact.email}</p>
             <div className={styles.buttons}>
-              <button className={styles.edit}>Edit</button>
+              <button
+                onClick={() => {
+                  selectContactForEdit(contact)
+                }}
+                className={styles.edit}
+              >
+                Edit
+              </button>
               <button
                 onClick={() => {
                   setSelectedContactId(contact.id);

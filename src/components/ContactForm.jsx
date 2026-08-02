@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ContactForm.module.css";
 import closeIcon from "../assets/icons/close.svg";
+import ConfirmModal from "./ConfirmModal";
 
-function ContactForm({ categories, addContact }) {
+function ContactForm({
+  categories,
+  addContact,
+  selectedContact,
+  updateContact,
+  clearSelectedContact,
+}) {
   const [isClosing, setisClosing] = useState(false);
+  const [showConfirm, setshowConfirm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [contact, setContact] = useState({
     firstName: "",
@@ -12,6 +20,21 @@ function ContactForm({ categories, addContact }) {
     phone: "",
     category: "",
   });
+  const closeModal = () => setshowConfirm(false);
+
+  useEffect(() => {
+    if (selectedContact) {
+      setContact({
+        id: selectedContact.id,
+        firstName: selectedContact.firstName,
+        lastName: selectedContact.lastName,
+        email: selectedContact.email,
+        phone: selectedContact.phone,
+        category: selectedContact.category,
+      });
+      setShowModal(true);
+    }
+  }, [selectedContact]);
 
   const saveDataHandler = () => {
     if (
@@ -27,8 +50,16 @@ function ContactForm({ categories, addContact }) {
     else if (!contact.email.includes("@") || contact.email.length <= 8)
       alert("Please enter a valid email address.");
     else {
-      addContact(contact);
+      selectedContact ? updateContact(contact) : addContact(contact);
       setisClosing(true);
+      clearSelectedContact();
+      setContact({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        category: "",
+      });
     }
   };
 
@@ -55,9 +86,9 @@ function ContactForm({ categories, addContact }) {
         >
           <div className={styles.form}>
             <div className={styles.formHeader}>
-              <h3>Add User</h3>
+              <h3>{selectedContact ? "Edit User" : "Add User"}</h3>
               <img
-                onClick={() => setisClosing(true)}
+                onClick={() => setshowConfirm(true)}
                 src={closeIcon}
                 alt="closeIcon"
                 className={styles.closeIcon}
@@ -71,6 +102,7 @@ function ContactForm({ categories, addContact }) {
                   type="text"
                   placeholder="Abolfazl"
                   name="firstName"
+                  value={contact.firstName}
                   onChange={changeHandler}
                 />
               </div>
@@ -81,6 +113,7 @@ function ContactForm({ categories, addContact }) {
                   type="text"
                   placeholder="Firoozi"
                   name="lastName"
+                  value={contact.lastName}
                   onChange={changeHandler}
                 />
               </div>
@@ -91,6 +124,7 @@ function ContactForm({ categories, addContact }) {
                   type="email"
                   placeholder="example@gmail.com"
                   name="email"
+                  value={contact.email}
                   onChange={changeHandler}
                 />
               </div>
@@ -101,6 +135,7 @@ function ContactForm({ categories, addContact }) {
                   type="number"
                   placeholder="09111111111"
                   name="phone"
+                  value={contact.phone}
                   onChange={changeHandler}
                 />
               </div>
@@ -109,6 +144,7 @@ function ContactForm({ categories, addContact }) {
                 <select
                   id="input-category"
                   name="category"
+                  value={contact.category}
                   onChange={changeHandler}
                 >
                   <option value="">Select category</option>
@@ -122,7 +158,7 @@ function ContactForm({ categories, addContact }) {
             </div>
             <div className={styles.formButtons}>
               <button
-                onClick={() => setisClosing(true)}
+                onClick={() => setshowConfirm(true)}
                 className={styles.cancelButton}
               >
                 Cancel
@@ -136,6 +172,23 @@ function ContactForm({ categories, addContact }) {
             </div>
           </div>
         </div>
+      )}
+      {showConfirm && (
+        <ConfirmModal
+          closeModal={closeModal}
+          message={"Do you want to cancel editing?"}
+          confirmFunction={() => {
+            setisClosing(true);
+            clearSelectedContact();
+            setContact({
+              firstName: "",
+              lastName: "",
+              email: "",
+              phone: "",
+              category: "",
+            });
+          }}
+        />
       )}
     </>
   );
