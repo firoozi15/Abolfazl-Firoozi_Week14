@@ -11,6 +11,8 @@ function ContactForm({
   updateContact,
   clearSelectedContact,
   setFilterCategory,
+  deleteContactsSelected,
+  selectedContacts,
 }) {
   const [isClosing, setisClosing] = useState(false);
   const [showConfirm, setshowConfirm] = useState(false);
@@ -72,13 +74,24 @@ function ContactForm({
   };
   return (
     <>
-      <CategoryButtons categories={categories} setFilterCategory={setFilterCategory} />
-      <button
-        onClick={() => setShowModal(true)}
-        className={`${styles.button} ${styles.adduser}`}
-      >
-        Add +
-      </button>
+      <CategoryButtons
+        categories={categories}
+        setFilterCategory={setFilterCategory}
+      />
+      <div className={styles.buttons}>
+        <button
+          onClick={() => deleteContactsSelected(selectedContacts)}
+          className={`${styles.button} ${styles.deleteUser} ${selectedContacts.length !== 0 && styles.showDeleteButton}`}
+        >
+          delete selected
+        </button>
+        <button
+          onClick={() => setShowModal(true)}
+          className={`${styles.button} ${styles.adduser}`}
+        >
+          Add +
+        </button>
+      </div>
       {showModal && (
         <div
           onAnimationEnd={() => {

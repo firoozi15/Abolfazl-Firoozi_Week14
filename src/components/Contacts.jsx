@@ -10,6 +10,9 @@ function Contacts({
   deleteContact,
   updateContact,
   setFilterCategory,
+  addContactListForDelete,
+  selectedContacts,
+  deleteContactsSelected,
 }) {
   const [selectedContact, setSelectedContact] = useState(null);
   const selectContactForEdit = (contact) => setSelectedContact(contact);
@@ -26,12 +29,16 @@ function Contacts({
             selectedContact={selectedContact}
             updateContact={updateContact}
             clearSelectedContact={clearSelectedContact}
+            deleteContactsSelected={deleteContactsSelected}
+            selectedContacts={selectedContacts}
           />
         </div>
         <ContactList
           contacts={contacts}
           deleteContact={deleteContact}
           selectContactForEdit={selectContactForEdit}
+          addContactListForDelete={addContactListForDelete}
+          selectedContacts={selectedContacts}
         />
       </main>
     </>

@@ -22,7 +22,7 @@
   animation: showModal 0.1s linear;
 }
 
-.hide{
+.hide {
   animation: hideModal 0.1s linear;
 }
 
@@ -76,9 +76,9 @@
   outline: none;
 }
 
-.formButtons{
-    display: flex;
-    gap: 1rem;
+.formButtons {
+  display: flex;
+  gap: 1rem;
 }
 
 .formButtons button {
@@ -91,28 +91,45 @@
   cursor: pointer;
 }
 
-.saveButton{
-    background-color: var(--main);
+.saveButton {
+  background-color: var(--main);
 }
 
-.cancelButton{
-    background-color: var(--red);
+.cancelButton {
+  background-color: var(--red);
+}
+
+.deleteUser {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s linear;
+  background-color: var(--red);
+}
+
+.showDeleteButton {
+  visibility: visible;
+  opacity: 1;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
 }
 
 @keyframes showModal {
-  0%{
+  0% {
     opacity: 0;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
 
 @keyframes hideModal {
-  0%{
+  0% {
     opacity: 1;
   }
-  100%{
+  100% {
     opacity: 0;
   }
 }

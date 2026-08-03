@@ -7,6 +7,7 @@ function ContactList({
   contacts,
   deleteContact,
   selectContactForEdit,
+  addContactListForDelete,
 }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedContactId, setSelectedContactId] = useState(0);
@@ -23,7 +24,12 @@ function ContactList({
       {contacts.map((contact) => {
         return (
           <div key={contact.id} className={styles.contact}>
-            <input type="checkbox" />
+            <input
+              onClick={(event) =>
+                addContactListForDelete(event.target.checked, contact.id)
+              }
+              type="checkbox"
+            />
             <img src={userIcon} alt="userIcon" />
             <p className={styles.fullName}>
               {contact.firstName} {contact.lastName}
@@ -33,9 +39,7 @@ function ContactList({
             <p className={styles.email}>{contact.email}</p>
             <div className={styles.buttons}>
               <button
-                onClick={() => {
-                  selectContactForEdit(contact)
-                }}
+                onClick={() => selectContactForEdit(contact)}
                 className={styles.edit}
               >
                 Edit

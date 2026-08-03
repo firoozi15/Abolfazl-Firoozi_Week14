@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Contacts from "./components/Contacts";
 import Header from "./components/Header";
+import ConfirmModal from "./components/ConfirmModal";
 
 function App() {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedContacts, setSelectedContacts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [searchContacts, setSearchContacts] = useState([]);
   const [contacts, setContacts] = useState(() => {
@@ -24,6 +27,27 @@ function App() {
       name: "Colleague",
     },
   ]);
+
+  const deleteContactsSelected = () => {
+    if (showConfirm === false) setShowConfirm(true);
+    else {
+      const updatedContacts = contacts.filter((contact) => {
+        if (!selectedContacts.includes(contact.id)) return contact;
+      });
+
+      setContacts(updatedContacts);
+      localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+      clearSearch();
+    }
+  };
+
+  const addContactListForDelete = (checked, id) => {
+    if (checked) setSelectedContacts([...selectedContacts, id]);
+    else
+      setSelectedContacts(
+        selectedContacts.filter((contactId) => contactId !== id),
+      );
+  };
 
   const setFilterCategory = (name) => {
     setSelectedCategory(name);
@@ -103,6 +127,7 @@ function App() {
     setSearchContacts([]);
     setSearchValue("");
     setFilterCategory("All");
+    setSelectedContacts([]);
   };
 
   return (
@@ -125,7 +150,19 @@ function App() {
         updateContact={updateContact}
         categories={categories}
         setFilterCategory={setFilterCategory}
+        addContactListForDelete={addContactListForDelete}
+        selectedContacts={selectedContacts}
+        deleteContactsSelected={deleteContactsSelected}
       />
+      {showConfirm && (
+        <ConfirmModal
+          confirmFunction={deleteContactsSelected}
+          message={`do you want to delete ${selectedContacts.length} contact ?`}
+          closeModal={() => {
+            setShowConfirm(false);
+          }}
+        />
+      )}
     </>
   );
 }
