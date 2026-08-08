@@ -1,39 +1,29 @@
 import { useState } from "react";
+
 import Contacts from "./components/Contacts";
 import Header from "./components/Header";
 import ConfirmModal from "./components/ConfirmModal";
+import categories from "./constants/categories.js";
 
 function App() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [searchContacts, setSearchContacts] = useState([]);
   const [contacts, setContacts] = useState(() => {
     return JSON.parse(localStorage.getItem("contacts")) || [];
   });
-  const [filteredCategoryContacts, setFilteredCategoryContacts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      name: "Family",
-    },
-    {
-      id: 2,
-      name: "Friend",
-    },
-    {
-      id: 3,
-      name: "Colleague",
-    },
-  ]);
+
+  const saveToLocalStorage = (contacts) => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  };
 
   const deleteContactsSelected = () => {
     if (showConfirm === false) setShowConfirm(true);
     else {
-      const updatedContacts = contacts.filter((contact) => {
-        if (!selectedContacts.includes(contact.id)) return contact;
-      });
+      const updatedContacts = contacts.filter(
+        (contact) => !selectedContacts.includes(contact.id),
+      );
 
       setContacts(updatedContacts);
       localStorage.setItem("contacts", JSON.stringify(updatedContacts));
@@ -42,7 +32,7 @@ function App() {
   };
 
   const addContactListForDelete = (checked, id) => {
-    if (checked) setSelectedContacts([...selectedContacts, id]);
+    if (checked) setSelectedContacts((prev) => [...prev, id]);
     else
       setSelectedContacts(
         selectedContacts.filter((contactId) => contactId !== id),
@@ -51,84 +41,74 @@ function App() {
 
   const setFilterCategory = (name) => {
     setSelectedCategory(name);
-    setFilteredCategoryContacts(filterByCategory(name));
   };
 
   const filterByCategory = (name) => {
     return contacts.filter((contact) => {
-      if (contact.category === name) {
-        console.log(contact);
-        return true;
-      }
-      if (name === "All") {
-        console.log(contact);
-        return true;
-      }
+      if (name === "All") return true;
+
+      return contact.category === name;
     });
   };
 
   const deleteContact = (id) => {
     const updatedContacts = contacts.filter((contact) => contact.id !== id);
     setContacts(updatedContacts);
-    localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+    saveToLocalStorage(updatedContacts);
     clearSearch();
   };
   const addContact = (contact) => {
     let contactId =
       contacts.length === 0 ? 1 : contacts[contacts.length - 1].id + 1;
     const newContact = { ...contact, id: contactId };
-    setContacts([...contacts, newContact]);
-    localStorage.setItem("contacts", JSON.stringify([...contacts, newContact]));
+    const newContacts = [...contacts, newContact];
+    setContacts(newContacts);
+    saveToLocalStorage(newContacts);
     clearSearch();
   };
   const updateContact = (updatedContact) => {
     const newContacts = contacts.map((contact) => {
       if (contact.id === updatedContact.id) {
-        const newContact = {
-          ...contact,
-          firstName: updatedContact.firstName,
-          lastName: updatedContact.lastName,
-          email: updatedContact.email,
-          phone: updatedContact.phone,
-          category: updatedContact.category,
-        };
-        return newContact;
+        return updatedContact;
       }
       return contact;
     });
 
     setContacts(newContacts);
-    localStorage.setItem("contacts", JSON.stringify(newContacts));
+    saveToLocalStorage(newContacts);
     clearSearch();
   };
 
   const searchContact = (searchValue) => {
-    console.log("search:", searchValue);
     setSearchValue(searchValue);
-    setSearchContacts(filteredContacts(searchValue));
   };
 
   const filteredContacts = (searchValue) => {
+    const value = searchValue.toLowerCase();
+
     return contacts.filter((contact) => {
-      console.log("contact:", contact.firstName);
-      console.log("search:", searchValue);
-      console.log(contact.firstName === searchValue);
-      if (contact.firstName.toLowerCase().includes(searchValue.toLowerCase()))
-        return contact;
-      if (contact.lastName.toLowerCase().includes(searchValue.toLowerCase()))
-        return contact;
-      if (contact.email.toLowerCase().includes(searchValue.toLowerCase()))
-        return contact;
-      if (contact.phone.includes(searchValue)) return contact;
+      return (
+        contact.firstName.toLowerCase().includes(value) ||
+        contact.lastName.toLowerCase().includes(value) ||
+        contact.email.toLowerCase().includes(value) ||
+        contact.phone.includes(searchValue)
+      );
     });
   };
 
   const clearSearch = () => {
-    setSearchContacts([]);
     setSearchValue("");
     setFilterCategory("All");
     setSelectedContacts([]);
   };
+
+  let displayedContacts;
+
+  if (searchValue) {
+    displayedContacts = filteredContacts(searchValue);
+  } else {
+    displayedContacts = filterByCategory(selectedCategory);
+  }
 
   return (
     <>
@@ -138,13 +118,7 @@ function App() {
         clearSearch={clearSearch}
       />
       <Contacts
-        contacts={
-          searchValue
-            ? searchContacts
-            : selectedCategory === "All"
-              ? contacts
-              : filteredCategoryContacts
-        }
+        contacts={displayedContacts}
         addContact={addContact}
         deleteContact={deleteContact}
         updateContact={updateContact}
@@ -153,6 +127,7 @@ function App() {
         addContactListForDelete={addContactListForDelete}
         selectedContacts={selectedContacts}
         deleteContactsSelected={deleteContactsSelected}
+        selectedCategory={selectedCategory}
       />
       {showConfirm && (
         <ConfirmModal

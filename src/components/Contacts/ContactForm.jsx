@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+
 import styles from "./ContactForm.module.css";
-import closeIcon from "../assets/icons/close.svg";
-import ConfirmModal from "./ConfirmModal";
-import CategoryButtons from "./CategoryButtons";
+import closeIcon from "../../assets/icons/close.svg";
+import { validateContact } from "../../utils/validation";
+import ConfirmModal from "../ConfirmModal";
+import CategoryButtons from "../CategoryButtons";
+import contactFields from "../../constants/contactFields";
 
 function ContactForm({
   categories,
+  selectedCategory,
   addContact,
   selectedContact,
   updateContact,
@@ -41,30 +45,22 @@ function ContactForm({
   }, [selectedContact]);
 
   const saveDataHandler = () => {
-    if (
-      !contact.firstName.trim() ||
-      !contact.lastName.trim() ||
-      !contact.email.trim() ||
-      !contact.phone.trim() ||
-      !contact.category
-    )
-      alert("Please fill in all fields.");
-    else if (contact.firstName.length < 4 || contact.lastName.length < 4)
-      alert("firstName , lastName must be at least 4 characters long.");
-    else if (!contact.email.includes("@") || contact.email.length <= 8)
-      alert("Please enter a valid email address.");
-    else {
-      selectedContact ? updateContact(contact) : addContact(contact);
-      setisClosing(true);
-      clearSelectedContact();
-      setContact({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        category: "",
-      });
+    const isError = validateContact(contact);
+    if (isError) {
+      alert(isError);
+      return;
     }
+
+    selectedContact ? updateContact(contact) : addContact(contact);
+    setisClosing(true);
+    clearSelectedContact();
+    setContact({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      category: "",
+    });
   };
 
   const changeHandler = (event) => {
@@ -76,6 +72,7 @@ function ContactForm({
     <>
       <CategoryButtons
         categories={categories}
+        selectedCategory={selectedCategory}
         setFilterCategory={setFilterCategory}
       />
       <div className={styles.buttons}>
@@ -111,50 +108,19 @@ function ContactForm({
               />
             </div>
             <div className={styles.formMain}>
-              <div className={styles.inputGroup}>
-                <label htmlFor="input-firstName">First Name</label>
-                <input
-                  id="input-firstName"
-                  type="text"
-                  placeholder="Abolfazl"
-                  name="firstName"
-                  value={contact.firstName}
-                  onChange={changeHandler}
-                />
-              </div>
-              <div className={styles.inputGroup}>
-                <label htmlFor="input-lastName">Last Name</label>
-                <input
-                  id="input-lastName"
-                  type="text"
-                  placeholder="Firoozi"
-                  name="lastName"
-                  value={contact.lastName}
-                  onChange={changeHandler}
-                />
-              </div>
-              <div className={styles.inputGroup}>
-                <label htmlFor="input-email">Email</label>
-                <input
-                  id="input-email"
-                  type="email"
-                  placeholder="example@gmail.com"
-                  name="email"
-                  value={contact.email}
-                  onChange={changeHandler}
-                />
-              </div>
-              <div className={styles.inputGroup}>
-                <label htmlFor="input-phoneNumber">phone</label>
-                <input
-                  id="input-phoneNumber"
-                  type="number"
-                  placeholder="09111111111"
-                  name="phone"
-                  value={contact.phone}
-                  onChange={changeHandler}
-                />
-              </div>
+              {contactFields.map((input) => (
+                <div className={styles.inputGroup} key={input.name}>
+                  <label htmlFor={input.id}>{input.label}</label>
+                  <input
+                    id={input.id}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    name={input.name}
+                    value={contact[input.name]}
+                    onChange={changeHandler}
+                  />
+                </div>
+              ))}
               <div className={styles.inputGroup}>
                 <label htmlFor="input-category">Category</label>
                 <select
