@@ -14,6 +14,7 @@ function Contacts({
   addContactListForDelete,
   selectedContacts,
   deleteContactsSelected,
+  showToastNotification,
 }) {
   const [selectedContact, setSelectedContact] = useState(null);
   const selectContactForEdit = (contact) => setSelectedContact(contact);
@@ -32,6 +33,7 @@ function Contacts({
           clearSelectedContact={clearSelectedContact}
           deleteContactsSelected={deleteContactsSelected}
           selectedContacts={selectedContacts}
+          showToastNotification={showToastNotification}
         />
       </div>
       <ContactList

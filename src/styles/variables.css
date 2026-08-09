@@ -8,4 +8,13 @@
   --black: #000000;
   --border-modal: #b8b8b8;
   --background--modal: #00000050;
+
+  --success-border: #01c851;
+  --error-border: #ff3447;
+  --warning-border: #ffbb35;
+  --info-border: #2196f3;
+  --success-background: #edf6ea;
+  --error-background: #fde9e7;
+  --warning-background: #fef8e6;
+  --info-background: #eff3ff;
 }

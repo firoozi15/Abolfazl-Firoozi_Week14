@@ -17,6 +17,7 @@ function ContactForm({
   setFilterCategory,
   deleteContactsSelected,
   selectedContacts,
+  showToastNotification,
 }) {
   const [isClosing, setisClosing] = useState(false);
   const [showConfirm, setshowConfirm] = useState(false);
@@ -47,7 +48,7 @@ function ContactForm({
   const saveDataHandler = () => {
     const isError = validateContact(contact);
     if (isError) {
-      alert(isError);
+      showToastNotification("error", isError);
       return;
     }
 

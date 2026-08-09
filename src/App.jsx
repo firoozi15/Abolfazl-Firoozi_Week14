@@ -4,8 +4,13 @@ import Contacts from "./components/Contacts";
 import Header from "./components/Header";
 import ConfirmModal from "./components/ConfirmModal";
 import categories from "./constants/categories.js";
+import Notification from "./components/Notification.jsx";
+
+let NotificationMessage;
+let NotificationType;
 
 function App() {
+  const [showNotification, setShowNotification] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedContacts, setSelectedContacts] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -27,6 +32,7 @@ function App() {
 
       setContacts(updatedContacts);
       localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+      showToastNotification("success", `${selectedContacts.length} Contacts deleted successfully`);
       clearSearch();
     }
   };
@@ -56,6 +62,7 @@ function App() {
     setContacts(updatedContacts);
     saveToLocalStorage(updatedContacts);
     clearSearch();
+    showToastNotification("success", "Contact deleted successfully");
   };
   const addContact = (contact) => {
     let contactId =
@@ -64,11 +71,13 @@ function App() {
     const newContacts = [...contacts, newContact];
     setContacts(newContacts);
     saveToLocalStorage(newContacts);
+    showToastNotification("success", "Contact added successfully");
     clearSearch();
   };
   const updateContact = (updatedContact) => {
     const newContacts = contacts.map((contact) => {
       if (contact.id === updatedContact.id) {
+        showToastNotification("success", "Contact updated successfully");
         return updatedContact;
       }
       return contact;
@@ -110,6 +119,14 @@ function App() {
     displayedContacts = filterByCategory(selectedCategory);
   }
 
+  const showToastNotification = (type, message) => {
+    NotificationType = type;
+    NotificationMessage = message;
+    setShowNotification(true);
+  };
+
+  const closeToastNotification = () => setShowNotification(false);
+
   return (
     <>
       <Header
@@ -128,6 +145,7 @@ function App() {
         selectedContacts={selectedContacts}
         deleteContactsSelected={deleteContactsSelected}
         selectedCategory={selectedCategory}
+        showToastNotification={showToastNotification}
       />
       {showConfirm && (
         <ConfirmModal
@@ -136,6 +154,13 @@ function App() {
           closeModal={() => {
             setShowConfirm(false);
           }}
+        />
+      )}
+      {showNotification && (
+        <Notification
+          type={NotificationType}
+          title={NotificationMessage}
+          closeNotification={closeToastNotification}
         />
       )}
     </>

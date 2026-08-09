@@ -8,7 +8,7 @@ export const validateContact = (contact) => {
   )
     return "Please fill in all fields.";
   else if (contact.firstName.length < 4 || contact.lastName.length < 4)
-    return "firstName , lastName must be at least 4 characters long.";
+    return "Name must be longer than 4 characters.";
   else if (!contact.email.includes("@") || contact.email.length <= 8)
     return "Please enter a valid email address.";
   else {
