@@ -31,7 +31,7 @@ function App() {
       );
 
       setContacts(updatedContacts);
-      localStorage.setItem("contacts", JSON.stringify(updatedContacts));
+      saveToLocalStorage(updatedContacts);
       showToastNotification("success", `${selectedContacts.length} Contacts deleted successfully`);
       clearSearch();
     }
