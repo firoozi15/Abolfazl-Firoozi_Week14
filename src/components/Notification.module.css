@@ -1,0 +1,125 @@
+.notification {
+  display: flex;
+  align-items: center;
+  width: 320px;
+  height: 55px;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  color: #ffffff;
+  background-color: #4b4343;
+  position: fixed;
+  opacity: 0;
+  animation: show 4s linear;
+  margin-bottom: 10px;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.success {
+  color: var(--success-border);
+  background-color: var(--success-background);
+  border: 1px solid var(--success-border);
+}
+
+.success::before {
+  content: "";
+  background-color: var(--success-border);
+  box-shadow: 0px 0px 10px var(--success-border);
+  width: 0%;
+  height: 3px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  animation: end 4s linear;
+}
+
+.error {
+  color: var(--error-border);
+  background-color: var(--error-background);
+  border: 1px solid var(--error-border);
+}
+
+.error::before {
+  content: "";
+  background-color: var(--error-border);
+  box-shadow: 0px 0px 10px var(--error-border);
+  width: 0%;
+  height: 3px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  animation: end 4s linear;
+}
+
+.warning {
+  color: var(--warning-border);
+  background-color: var(--warning-background);
+  border: 1px solid var(--warning-border);
+}
+
+.warning::before {
+  content: "";
+  background-color: var(--warning-border);
+  box-shadow: 0px 0px 10px var(--warning-border);
+  width: 0%;
+  height: 3px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  animation: end 4s linear;
+}
+
+.info {
+  color: var(--info-border);
+  background-color: var(--info-background);
+  border: 1px solid var(--info-border);
+}
+
+.info::before {
+  content: "";
+  background-color: var(--info-border);
+  box-shadow: 0px 0px 10px var(--info-border);
+  width: 0%;
+  height: 3px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  animation: end 4s linear;
+}
+
+.icon,
+.icon img {
+  width: 30px;
+  height: 30px;
+}
+
+.text {
+  padding-left: 1rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .notification {
+    top: 10px;
+    width: calc(100% - 2rem - 10px);
+  }
+}
+
+@keyframes end {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes show {
+  2% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
