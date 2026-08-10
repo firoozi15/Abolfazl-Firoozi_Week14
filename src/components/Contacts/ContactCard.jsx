@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import userIcon from "../../assets/icons/user.svg";
 import styles from "./ContactCard.module.css";
 import ConfirmModal from "../ConfirmModal";
 
@@ -23,13 +22,15 @@ function ContactCard({
             addContactListForDelete(event.target.checked, contact.id)
           }
         />
-        <img src={userIcon} alt="userIcon" />
-        <p className={styles.fullName}>
-          {contact.firstName} {contact.lastName}
-        </p>
+        <div className={styles.fullName}>
+          <p>{contact.firstName}</p>
+          <p>{contact.lastName}</p>
+        </div>
         <p className={styles.category}>{contact.category}</p>
-        <p className={styles.phone}>{contact.phone}</p>
-        <p className={styles.email}>{contact.email}</p>
+        <div className={styles.phone_email}>
+          <p className={styles.phone}>{contact.phone}</p>
+          <p className={styles.email}>{contact.email}</p>
+        </div>
         <div className={styles.buttons}>
           <button
             onClick={() => selectContactForEdit(contact)}

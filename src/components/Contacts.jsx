@@ -21,7 +21,6 @@ function Contacts({
   const clearSelectedContact = () => setSelectedContact(null);
   return (
     <main className={styles.main}>
-      <h1>Contacts</h1>
       <div className={styles.mainHeader}>
         <ContactForm
           categories={categories}

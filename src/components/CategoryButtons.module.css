@@ -18,3 +18,9 @@
   background-color: var(--main) !important;
   color: var(--white) !important;
 }
+
+@media (max-width: 768px) {
+  .button{
+    font-size: 10px;
+  }
+}

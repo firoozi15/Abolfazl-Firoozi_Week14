@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import styles from "./ContactForm.module.css";
 import closeIcon from "../../assets/icons/close.svg";
+import trashIcon from "../../assets/icons/trash.svg";
+import addUserIcon from "../../assets/icons/add_user.svg";
 import { validateContact } from "../../utils/validation";
 import ConfirmModal from "../ConfirmModal";
 import CategoryButtons from "../CategoryButtons";
@@ -81,13 +83,13 @@ function ContactForm({
           onClick={() => deleteContactsSelected(selectedContacts)}
           className={`${styles.button} ${styles.deleteUser} ${selectedContacts.length !== 0 && styles.showDeleteButton}`}
         >
-          delete selected
+          <img className={styles.trashIcon} src={trashIcon} alt="deleteAll" />
         </button>
         <button
           onClick={() => setShowModal(true)}
           className={`${styles.button} ${styles.adduser}`}
         >
-          Add +
+          <img className={styles.addUserIcon} src={addUserIcon} alt="addUser" />
         </button>
       </div>
       {showModal && (

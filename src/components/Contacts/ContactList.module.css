@@ -10,3 +10,16 @@
   padding: 20px;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .contactsList {
+    margin-top: 1rem;
+    padding: 0px 10px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.1);
+  }
+  .noMember {
+    font-size: 11px;
+  }
+}

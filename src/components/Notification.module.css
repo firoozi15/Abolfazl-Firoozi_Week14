@@ -13,6 +13,7 @@
   margin-bottom: 10px;
   top: 20px;
   right: 20px;
+  z-index: 2;
 }
 
 .success {
@@ -93,9 +94,16 @@
   height: 30px;
 }
 
-.text{
-  padding-left: 1rem ;
+.text {
+  padding-left: 1rem;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .notification {
+    top: 10px;
+    width: calc(100% - 2rem - 10px);
+  }
 }
 
 @keyframes end {
